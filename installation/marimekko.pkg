@@ -1,0 +1,24 @@
+v 1.0
+d {bf:marimekko}: A package for creating marimekko in Stata
+d
+d Requires: Stata version 15 or higher.
+d
+d KW: Stata
+d KW: graphs
+d KW: marimekko
+d
+d Distribution-Date: 20220627
+d
+d This  version: 27 Jun 2022
+d First version: 27 Jun 2022
+d License: MIT
+d
+d Author: Asjad Naqvi (asjadnaqvi@gmail.com)
+d
+f marimekko.ado
+f marimekko.sthlp
+
+
+
+
+

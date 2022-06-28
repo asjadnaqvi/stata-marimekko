@@ -1,0 +1,9 @@
+v 1.0
+d MARIMEKKO: A package for creating marimekko charts in Stata
+d
+d Asjad Naqvi, 
+d asjadnaqvi@gmail.com
+d
+d https://medium.com/the-stata-guide
+d https://github.com/asjadnaqvi/Stata-schemes
+
