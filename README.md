@@ -47,13 +47,13 @@ marimekko y x [if] [in], label(variable) [ sort(variable) reverse colorp(str) co
 
 See the help file `help marimekko` for details.
 
-The most basic use is as follows:
+The basic use is as follows:
 
 ```
 marimekko y x, label(variable)
 ```
 
-
+The `y` and `x` variables need to be unique across the `label()` variable. If not, then the program will throw a warning and average the values across the the `label()` variable.
 
 
 ## Examples
@@ -65,7 +65,7 @@ clear
 set scheme white_tableau
 graph set window fontface "Arial Narrow"
 
-use "https://github.com/asjadnaqvi/The-Stata-Guide/blob/master/data/OWID_data.dta?raw=true", clear
+use "https://github.com/asjadnaqvi/stata-marimekko/blob/main/data/demo_r_pjangrp3_pop_change.dta?raw=true", clear
 
 drop NUTS_ID
 
