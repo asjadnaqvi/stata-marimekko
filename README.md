@@ -79,8 +79,6 @@ lab de regions 	1 "Berlin" 2 "Hamburg" 3 "Bayern" 4 "Brandenburg" 5 "Baden-Würt
 				10 "Bremen" 11 "Nordrhein-Westfalen" 12 "Mecklenburg-Vorpommern" 13 "Sachsen" 14 "Saarland" 15 "Thüringen" 16 "Sachsen-Anhalt", replace
 
 lab val regions regions
-
-
 ```
 
 
