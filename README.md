@@ -161,7 +161,7 @@ marimekko change pop, label(regions) ///
 	xsize(2) ysize(1)
 ```
 
-<img src="/figures/marimekko6.png" height="600">
+<img src="/figures/marimekko6.png" width="600">
 
 
 ## Acknowlegments
