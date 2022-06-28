@@ -6,6 +6,7 @@
 This package provides the ability to draw Marimekko graphs in Stata. 
 
 
+
 ## Installation
 
 The package can be installed via SSC or GitHub. The GitHub version, *might* be more recent due to bug fixes, feature updates etc, and *may* contain syntax improvements and changes in *default* values. See version numbers below. Eventually the GitHub version is published on SSC.
@@ -165,11 +166,13 @@ marimekko change pop, label(regions) ///
 <img src="/figures/marimekko6.png" height="600">
 
 
+## Acknowlegments
 
+The package was inspired by (Ansgar Wolsing's)[https://twitter.com/_ansgar] [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880) and the lack of a general purpose Stata package for Marimekko charts.  
 
 ## Feedback
 
-Please open an [issue](https://github.com/asjadnaqvi/stata-marimekko/issues) to report errors, feature enhancements, and/or other requests. 
+Please open an [issue](https://github.com/asjadnaqvi/stata-marimekko/issues) to report errors, feature enhancements, and/or other requests. For generating Mosaic plots see [this article](https://medium.com/the-stata-guide/stata-graphs-mosaic-marimekko-plots-49caa27c5554).
 
 
 ## Versions
