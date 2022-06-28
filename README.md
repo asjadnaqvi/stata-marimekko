@@ -166,7 +166,7 @@ marimekko change pop, label(regions) ///
 
 ## Acknowlegments
 
-The package was inspired by (Ansgar Wolsing's)[https://twitter.com/_ansgar] [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880) and the lack of a general purpose Stata package for Marimekko charts.  
+The package was inspired by (Ansgar Wolsing)[https://twitter.com/_ansgar]'s [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880) and the lack of a general purpose Stata package for Marimekko charts.  
 
 ## Feedback
 
