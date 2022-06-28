@@ -1,4 +1,4 @@
-*! marimekko v1.0 (70 Jun 2022). First release
+*! marimekko v1.0 (28 Jun 2022). First release
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
 
@@ -47,7 +47,7 @@ qui {
 	}
 	
 	if _N < 5 {
-		set obs 5   // in case there are very few data points
+		set obs 5  
 	}
 	
 	
@@ -58,10 +58,6 @@ qui {
 		gen id = _n
 		gen name = `label'
 		local label id
-		
-		*local label name
-		
-		*gen name = `label'
 	}
 	else {
 		if "`: value label `label''" == "" { 
@@ -157,18 +153,19 @@ qui {
 		}
 
 	
-	// the final piece
-	twoway ///
-		`bars1' ///
-		`bars2' ///
-		`labels1' ///
-		`labels2' ///
-			, ///
-			legend(off)  ///
-			`xlabel' `ylabel' ///
-			`xtitle' `ytitle' ///
-			`title' `subtitle' `note' ///
-			`scheme' `xsize' `ysize' `name'
+		// put it together
+		
+		twoway ///
+			`bars1' ///
+			`bars2' ///
+			`labels1' ///
+			`labels2' ///
+				, ///
+				legend(off)  ///
+				`xlabel' `ylabel' ///
+				`xtitle' `ytitle' ///
+				`title' `subtitle' `note' ///
+				`scheme' `xsize' `ysize' `name'
 			
 
 	restore
