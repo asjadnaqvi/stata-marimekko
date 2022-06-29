@@ -166,7 +166,9 @@ marimekko change pop, label(regions) ///
 
 ## Acknowlegments
 
-The package was inspired by [Ansgar Wolsing](https://twitter.com/_ansgar)'s [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880) and the lack of a general purpose Stata package for Marimekko charts. For generating Mosaic plots see [this article](https://medium.com/the-stata-guide/stata-graphs-mosaic-marimekko-plots-49caa27c5554) on [the Stata Guide](https://medium.com/the-stata-guide) on Medium.
+The package was inspired by [Ansgar Wolsing](https://twitter.com/_ansgar)'s [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880), and [Maarten Lambrechts](https://twitter.com/maartenzam)'s [Twitter post](https://twitter.com/maartenzam/status/1537705354372558848). 
+
+Additionally there is a lack of general-purpose Stata package for Marimekko charts. I have also discussed this in my article on [Mosaic plots](https://medium.com/the-stata-guide/stata-graphs-mosaic-marimekko-plots-49caa27c5554) on the [Stata Guide](https://medium.com/the-stata-guide) on Medium.
 
 ## Feedback
 
