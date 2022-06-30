@@ -9,7 +9,7 @@ This package provides the ability to draw Marimekko graphs in Stata.
 
 ## Installation
 
-The package can be installed via SSC or GitHub. The GitHub version, *might* be more recent due to bug fixes, feature updates etc, and *may* contain syntax improvements and changes in *default* values. See version numbers below. Eventually the GitHub version is published on SSC.
+The package can be installed via SSC or GitHub (the beta is on GitHub only). The GitHub version, *might* be more recent due to bug fixes, feature updates etc, and *may* contain syntax improvements and changes in *default* values. See version numbers below. Eventually the GitHub version is published on SSC.
 
 
 
@@ -54,7 +54,7 @@ The basic use is as follows:
 marimekko y x, label(variable)
 ```
 
-The `y` and `x` variables need to be unique across the `label()` variable. If not, then the program will throw a warning and average the values across the the `label()` variable.
+The `y` and `x` variables need to be unique across the `label()` variable. If not, then the program will throw a warning and average the values across the `label()` variable. In summary, the data should be prepared in advance for the graph.
 
 
 ## Examples
@@ -82,7 +82,7 @@ lab val regions regions
 ```
 
 
-### Basic use
+### Examples
 
 
 ```
@@ -110,6 +110,8 @@ marimekko change pop, label(regions) sort(pop) reverse
 
 <img src="/figures/marimekko1_3.png" height="600">
 
+
+Sort by names:
 
 ```
 decode regions, gen(names)
@@ -168,7 +170,7 @@ marimekko change pop, label(regions) ///
 
 The package was inspired by [Ansgar Wolsing](https://twitter.com/_ansgar)'s [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880), and [Maarten Lambrechts](https://twitter.com/maartenzam)'s [Twitter post](https://twitter.com/maartenzam/status/1537705354372558848). 
 
-Additionally there is a lack of general-purpose Stata package for Marimekko charts. I have also discussed this in my article on [Mosaic plots](https://medium.com/the-stata-guide/stata-graphs-mosaic-marimekko-plots-49caa27c5554) on the [Stata Guide](https://medium.com/the-stata-guide) on Medium.
+Additionally, there is a lack of general-purpose Stata package for Marimekko charts. I have also discussed this in my article on [Mosaic plots](https://medium.com/the-stata-guide/stata-graphs-mosaic-marimekko-plots-49caa27c5554) on the [Stata Guide](https://medium.com/the-stata-guide) on Medium.
 
 ## Feedback
 
