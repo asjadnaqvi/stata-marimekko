@@ -1,7 +1,7 @@
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-marimekko) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-marimekko) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-marimekko) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-marimekko) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-marimekko)
 
 
-# marimekko v1.0 (beta)
+# marimekko v1.0
 
 This package provides the ability to draw Marimekko graphs in Stata. 
 
@@ -12,8 +12,16 @@ This package provides the ability to draw Marimekko graphs in Stata.
 The package can be installed via SSC or GitHub (the beta is on GitHub only). The GitHub version, *might* be more recent due to bug fixes, feature updates etc, and *may* contain syntax improvements and changes in *default* values. See version numbers below. Eventually the GitHub version is published on SSC.
 
 
+Install the package as follows:
 
-Install from GitHub (**v1.0**):
+SSC (**v1.0**):
+
+```
+ssc install marimekko, replace
+```
+
+
+or directly from GitHub (**v1.0**):
 
 ```
 net install marimekko, from("https://raw.githubusercontent.com/asjadnaqvi/stata-marimekko/main/installation/") replace
