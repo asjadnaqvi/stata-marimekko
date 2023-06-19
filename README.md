@@ -1,10 +1,13 @@
+
+![marimekko-1](https://github.com/asjadnaqvi/stata-marimekko/assets/38498046/c71436e5-7f9b-4d04-946b-0afb01f279e2)
+
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-marimekko) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-marimekko) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-marimekko) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-marimekko) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-marimekko)
 
 
 # marimekko v1.0
+(28 Jun 2022)
 
 This package provides the ability to draw Marimekko graphs in Stata. 
-
 
 
 ## Installation
