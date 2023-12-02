@@ -50,11 +50,12 @@ graph set window fontface "Arial Narrow"
 
 The syntax for the latest version is as follows:
 
-```
-marimekko y x [if] [in], label(variable) [ sort(variable) reverse colorp(str) colorn(str) lcolor(str) lwidth(num)
-	mlabsize(num) mlabangle(str) mlabgap(num) mlabcolor(str) 
-	xlabel(str) ylabel(str) xtitle(str) ytitle(str) 
-	title(str) subtitle(str) note(str) xsize(num) ysize(num) scheme(str) name(str) ]
+```stata
+marikmekko y x [if] [in], label(varname) [ sort(varname) reverse colorp(str) colorn(str)
+                lcolor(str) lwidth(num) mlabsize(num) mlabangle(num) mlabgap(num)
+                mlabcolor(num) xline(num) yline(num) xlabel(str) xtitle(str) ytitle(str)           
+                title(str) subtitle(str) note(str) ysize(num) xsize(num) scheme(str)
+                ]
 ```
 
 See the help file `help marimekko` for details.
@@ -72,7 +73,7 @@ The `y` and `x` variables need to be unique across the `label()` variable. If no
 
 Set up the data:
 
-```
+```stata
 clear
 set scheme white_tableau
 graph set window fontface "Arial Narrow"
@@ -96,13 +97,13 @@ lab val regions regions
 ### Examples
 
 
-```
+```stata
 marimekko change pop, label(regions)
 ```
 
 <img src="/figures/marimekko1.png" height="600">
 
-```
+```stata
 marimekko change pop, label(regions) sort(change) reverse	
 ```
 
