@@ -4,8 +4,8 @@
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-marimekko) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-marimekko) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-marimekko) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-marimekko) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-marimekko)
 
 
-# marimekko v1.0
-(28 Jun 2022)
+# marimekko v1.1
+(02 Dec 2023)
 
 This package provides the ability to draw Marimekko graphs in Stata. 
 
@@ -24,7 +24,7 @@ ssc install marimekko, replace
 ```
 
 
-or directly from GitHub (**v1.0**):
+or directly from GitHub (**v1.1**):
 
 ```
 net install marimekko, from("https://raw.githubusercontent.com/asjadnaqvi/stata-marimekko/main/installation/") replace
@@ -48,7 +48,7 @@ graph set window fontface "Arial Narrow"
 
 ## Syntax
 
-The syntax for v1.0 is as follows:
+The syntax for the latest version is as follows:
 
 ```
 marimekko y x [if] [in], label(variable) [ sort(variable) reverse colorp(str) colorn(str) lcolor(str) lwidth(num)
@@ -177,6 +177,16 @@ marimekko change pop, label(regions) ///
 <img src="/figures/marimekko6.png" width="900">
 
 
+```
+marimekko change pop, label(regions) ///
+	 colorp("%50") colorn("%50") lc(black) lw(0.2) mlabs(2) mlaba(45) mlabg(0.1) mlabc(blue) ///
+	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") yline(1) ///
+	xsize(2) ysize(1)
+```
+
+<img src="/figures/marimekko7.png" width="900">
+
+
 ## Acknowlegments
 
 The package was inspired by [Ansgar Wolsing](https://twitter.com/_ansgar)'s [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880), and [Maarten Lambrechts](https://twitter.com/maartenzam)'s [Twitter post](https://twitter.com/maartenzam/status/1537705354372558848). 
@@ -189,6 +199,10 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-marimekko/issues) to 
 
 
 ## Versions
+
+**v1.1 (02 Dec 2023)**
+- Additional options, such as `yline()`, `xline()` added.
+- Code cleanup.
 
 **v1.0 (28 Jun 2022)**
 - Beta version.

@@ -1,6 +1,8 @@
-*! marimekko v1.0 (28 Jun 2022). First release
+*! marimekko v1.1 (02 Dec 2023)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.1 (02 Dec 2023): Added additional options
+* v1.0 (28 Jun 2022): First release
 
 cap program drop marimekko
 
@@ -13,7 +15,8 @@ version 15
 				[ sort(varname) reverse colorp(string) colorn(string) LColor(string) LWidth(real 0.1) ] ///
 				[ MLABSize(real 1.6) MLABAngle(string) MLABGap(real 0.05) MLABColor(string)   ] ///
 				[ xlabel(passthru) ylabel(passthru) xtitle(passthru) ytitle(passthru) ///
-				  title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru) xsize(passthru) ysize(passthru) ] 
+				  title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru) xsize(passthru) ysize(passthru) ]  ///
+				[ yline(passthru) xline(passthru) saving(passthru)   ]    // v1.1 options
 		
 		
 	
@@ -84,6 +87,8 @@ qui {
 	gen double `ye' = `yvar'
 	gen double `ys' = 0
 	
+	
+
 		levelsof `label' , local(lvls)
 
 		foreach x of local lvls {
@@ -164,8 +169,9 @@ qui {
 				legend(off)  ///
 				`xlabel' `ylabel' ///
 				`xtitle' `ytitle' ///
+				`xline' `yline' ///
 				`title' `subtitle' `note' ///
-				`scheme' `xsize' `ysize' `name'
+				`scheme' `xsize' `ysize' `name' `saving' 
 			
 
 	restore

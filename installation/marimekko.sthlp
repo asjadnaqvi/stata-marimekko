@@ -1,7 +1,7 @@
 {smcl}
-{* 28June2022}{...}
+{* 02Dec2023}{...}
 {hi:help marikmekko}{...}
-{right:{browse "https://github.com/asjadnaqvi/stata-marimekko":marimekko v1.0 (GitHub)}}
+{right:{browse "https://github.com/asjadnaqvi/stata-marimekko":marimekko v1.1 (GitHub)}}
 
 {hline}
 
@@ -13,9 +13,10 @@
 {p 8 15 2}
 
 {cmd:marikmekko} {it:y x} {ifin}, {cmd:label}({it:varname}) {cmd:[} {cmd:sort}({it:varname}) reverse {cmd:colorp}({it:str}) {cmd:colorn}({it:str})
-		{cmdab:lc:olor}({it:str}) {cmdab:lw:idth}({it:num}) {cmdab:mlabs:ize}({it:num}) {cmdab:mlaba:ngle}({it:num}) {cmdab:mlabg:ap}({it:num}) {cmdab:mlabc:olor}({it:num})
-		{cmd:xlabel}({it:str}) {cmd:xtitle}({it:str}) {cmd:ytitle}({it:str}) {cmd:title}({it:str}) {cmd:subtitle}({it:str}) {cmd:note}({it:str}) 
-		{cmd:ysize}({it:num}) {cmd:xsize}({it:num}) {cmd:scheme}({it:str}) {cmd:]}
+		{cmdab:lc:olor}({it:str}) {cmdab:lw:idth}({it:num}) {cmdab:mlabs:ize}({it:num}) {cmdab:mlaba:ngle}({it:num}) {cmdab:mlabg:ap}({it:num})
+		{cmdab:mlabc:olor}({it:num}) {cmd:xline}({it:num}) {cmd:yline}({it:num}) {cmd:xlabel}({it:str}) {cmd:xtitle}({it:str}) {cmd:ytitle}({it:str}) 		
+		{cmd:title}({it:str}) {cmd:subtitle}({it:str}) {cmd:note}({it:str}) {cmd:ysize}({it:num}) {cmd:xsize}({it:num}) {cmd:scheme}({it:str})
+		{cmd:]}
 
 
 {p 4 4 2}
@@ -53,6 +54,8 @@ The options are described as follows:
 
 {p2coldent : {opt xtitle, ytitle, xsize, ysize}}These are standard twoway graph options.{p_end}
 
+{p2coldent : {opt xline()}, {opt yline()}}These are standard twoway graph options.{p_end}
+
 {p2coldent : {opt title, subtitle, note, name}}These are standard twoway graph options.{p_end}
 
 {p2coldent : {opt scheme(string)}}Load the custom scheme. Above options can be used to fine tune individual elements.{p_end}
@@ -63,22 +66,23 @@ The options are described as follows:
 
 {title:Dependencies}
 
-None
+The {browse "http://repec.sowi.unibe.ch/stata/palettes/index.html":palette} package (Jann 2018, 2022) is required:
+
+{stata ssc install palettes, replace}
+{stata ssc install colrspace, replace}
+
 
 {title:Examples}
 
-See GitHub.
+See {browse "https://github.com/asjadnaqvi/markmekko":GitHub}.
 
 {hline}
-
-{title:Acknowledgements}
-
 
 
 {title:Package details}
 
-Version      : {bf:marimekko} v1.0
-This release : 28 Jun 2022
+Version      : {bf:marimekko} v1.1
+This release : 02 Dec 2023
 First release: 28 Jun 2022
 Repository   : {browse "https://github.com/asjadnaqvi/markmekko":GitHub}
 Keywords     : Stata, graph, marimekko
@@ -91,6 +95,17 @@ Twitter      : {browse "https://twitter.com/AsjadNaqvi":@AsjadNaqvi}
 
 
 {title:References}
+
+{p 4 8 2}Jann, B. (2018). {browse "https://www.stata-journal.com/article.html?article=gr0075":Color palettes for Stata graphics}. The Stata Journal 18(4): 765-785.
+
+{p 4 8 2}Jann, B. (2022). {browse "https://ideas.repec.org/p/bss/wpaper/43.html":Color palettes for Stata graphics: An update}. University of Bern Social Sciences Working Papers No. 43. 
+
+
+{title:Other visualization packages}
+
+{psee}
+    {helpb arcplot}, {helpb alluvial}, {helpb bimap}, {helpb bumparea}, {helpb bumpline}, {helpb circlebar}, {helpb circlepack}, {helpb clipgeo}, {helpb delaunay}, {helpb joyplot}, 
+	{helpb marimekko}, {helpb sankey}, {helpb schemepack}, {helpb spider}, {helpb streamplot}, {helpb sunburst}, {helpb treecluster}, {helpb treemap}
 
 
 
