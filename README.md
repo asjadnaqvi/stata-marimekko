@@ -4,6 +4,12 @@
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-marimekko) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-marimekko) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-marimekko) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-marimekko) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-marimekko)
 
 
+---
+
+[Installation](#Installation) | [Syntax](#Syntax) | [Examples](#Examples) | [Feedback](#Feedback) | [Change log](#Change-log)
+
+---
+
 # marimekko v1.1
 (02 Dec 2023)
 
