@@ -23,7 +23,7 @@ The package can be installed via SSC or GitHub (the beta is on GitHub only). The
 
 Install the package as follows:
 
-SSC (**v1.0**):
+SSC (**v1.1**):
 
 ```
 ssc install marimekko, replace
@@ -205,7 +205,7 @@ Additionally, there is a lack of general-purpose Stata package for Marimekko cha
 Please open an [issue](https://github.com/asjadnaqvi/stata-marimekko/issues) to report errors, feature enhancements, and/or other requests. 
 
 
-## Versions
+## Change log
 
 **v1.1 (02 Dec 2023)**
 - Additional options, such as `yline()`, `xline()` added.
