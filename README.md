@@ -107,26 +107,26 @@ lab val regions regions
 marimekko change pop, label(regions)
 ```
 
-<img src="/figures/marimekko1.png" height="600">
+<img src="/figures/marimekko1.png" width="100%">
 
 ```stata
 marimekko change pop, label(regions) sort(change) reverse	
 ```
 
-<img src="/figures/marimekko1_1.png" height="600">
+<img src="/figures/marimekko1_1.png" width="100%">
 
 
 ```
 marimekko change pop, label(regions) sort(pop) 	
 ```
 
-<img src="/figures/marimekko1_2.png" height="600">
+<img src="/figures/marimekko1_2.png" width="100%">
 
 ```
 marimekko change pop, label(regions) sort(pop) reverse	
 ```
 
-<img src="/figures/marimekko1_3.png" height="600">
+<img src="/figures/marimekko1_3.png" width="100%">
 
 
 Sort by names:
@@ -137,21 +137,21 @@ decode regions, gen(names)
 marimekko change pop, label(names) sort(names)	
 ```
 
-<img src="/figures/marimekko1_5.png" height="600">
+<img src="/figures/marimekko1_5.png" width="100%">
 
 
 ```
 marimekko change pop, label(regions) sort(change) ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") 
 ```
 
-<img src="/figures/marimekko2.png" height="600">
+<img src="/figures/marimekko2.png" width="100%">
 
 
 ```
 marimekko change pop, label(regions) ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") colorp(green) colorn(purple)
 ```
 
-<img src="/figures/marimekko3.png" height="600">
+<img src="/figures/marimekko3.png" width="100%">
 
 
 ```
@@ -160,7 +160,7 @@ marimekko change pop, label(regions) ///
 	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") 
 ```
 
-<img src="/figures/marimekko4.png" height="600">
+<img src="/figures/marimekko4.png" width="100%">
 
 
 ```
@@ -169,7 +169,7 @@ marimekko change pop, label(regions) ///
 	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") 
 ```
 
-<img src="/figures/marimekko5.png" height="600">
+<img src="/figures/marimekko5.png" width="100%">
 
 
 ```
@@ -181,7 +181,7 @@ marimekko change pop, label(regions) ///
 	xsize(2) ysize(1)
 ```
 
-<img src="/figures/marimekko6.png" width="900">
+<img src="/figures/marimekko6.png" width="100%">
 
 
 ```
@@ -191,7 +191,7 @@ marimekko change pop, label(regions) ///
 	xsize(2) ysize(1)
 ```
 
-<img src="/figures/marimekko7.png" width="900">
+<img src="/figures/marimekko7.png" width="100%">
 
 
 ## Acknowlegments
