@@ -153,7 +153,9 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-marimekko/issues) to 
 ## Change log
 
 **v1.2 (11 Nov 2024)**
-Complete package redesign to cater to general needs for Marimekko or mosaic plots. Major changes:
+
+Complete package redesign with the following major changes:
+
 - Minimum syntax is now `marimekko y x, by()`, where `by()` defines the x-axis categories.
 - Y-axis categories are defined by `over()` variable.
 - Both axes can be scaled using `xshare`, `xpercent` and `yshare`, `ypercent` options. These are for (0,1) or (0,100) scaling.
