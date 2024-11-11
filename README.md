@@ -5,8 +5,7 @@
 
 ---
 
-![marimekko-1](https://github.com/asjadnaqvi/stata-marimekko/assets/38498046/c71436e5-7f9b-4d04-946b-0afb01f279e2)
-
+![marimekko_banner](https://github.com/user-attachments/assets/158e9eb6-cb7f-491f-b884-29ae9182bd0f)
 
 
 
