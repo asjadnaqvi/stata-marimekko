@@ -1,178 +1,435 @@
-*! marimekko v1.1 (02 Dec 2023)
+*! marimekko v1.2 (11 Nov 2024)
 *! Asjad Naqvi (asjadnaqvi@gmail.com)
 
+* v1.2 (11 Nov 2024): major package rework. see v1.2 rows below for the new options.
 * v1.1 (02 Dec 2023): Added additional options
 * v1.0 (28 Jun 2022): First release
 
+
 cap program drop marimekko
 
-
-program marimekko, sortpreserve
+program marimekko, // sortpreserve
 
 version 15
  
-	syntax varlist(min=2 max=2 numeric) [if] [in], label(varname)  ///
-				[ sort(varname) reverse colorp(string) colorn(string) LColor(string) LWidth(real 0.1) ] ///
-				[ MLABSize(real 1.6) MLABAngle(string) MLABGap(real 0.05) MLABColor(string)   ] ///
-				[ xlabel(passthru) ylabel(passthru) xtitle(passthru) ytitle(passthru) ///
-				  title(passthru) subtitle(passthru) note(passthru) scheme(passthru) name(passthru) xsize(passthru) ysize(passthru) ]  ///
-				[ yline(passthru) xline(passthru) saving(passthru)   ]    // v1.1 options
-		
+	syntax varlist(min=2 max=2 numeric) [if] [in] [aw fw pw iw/], by(varname)  ///
+				[ sort(varname) reverse palette(string) LColor(string) LWidth(string) ] ///
+				[ LABSize(string) LABAngle(string) LABGap(string) LABColor(string) LABPosition(string)   ] ///
+				[ over(varname) stat(string) xshare XPERCENTage yshare YPERCENTage legend(string) wrap(numlist max=1 >0)  ] ///  // v1.2 options
+				[ LEGPOSition(real 6) LEGROWs(real 1) LEGSize(string) offset(real 0) SHOWTOTal format(string) LABCONDition(real 0) labprop labscale(real 0.3333) * ] // v1.2 options
 		
 	
 	marksample touse, strok
-	gettoken yvar xvar : varlist 	
 
-	local dups 0
-	qui levelsof `label'
-	if _N > r(r) {
-		di in yellow "{bf:Warning}: There are duplicates in the {it:`label'} variable. The program will take the mean of the variables."
-		local dups 1
+
+	cap findfile labmask.ado
+		if _rc != 0 quietly ssc install labutil, replace
+	
+	cap findfile labsplit.ado
+		if _rc != 0 quietly ssc install graphfunctions, replace		
+		
+	// check dependencies
+	cap findfile colorpalette.ado
+	if _rc != 0 {
+		display as error "The palettes package is missing. Please install the {stata ssc install palettes, replace:palettes} and {stata ssc install colrspace, replace:colrspace} packages."
+		exit
+	}		
+	
+	if "`stat'" != "" & !inlist("`stat'", "mean", "sum") {
+		display as error "Valid options are {bf:stat(mean)} [default] or {bf:stat(sum)}."
+		exit
+	}		
+	
+	if "`xshare'"!="" & "`xpercentage'"!= "" {
+		display as error "Only one off {it:xshare} or {it:xpercent} can be specified."
+		exit
 	}
+	
+	if "`yshare'"!="" & "`ypercentage'"!= "" {
+		display as error "Only one off {it:yshare} or {it:ypercent} can be specified."
+		exit
+	}
+		
+	
 
-
-qui {
+quietly {
 	preserve	
 	
-	
 	keep if `touse'
+		
+	tokenize `varlist'
+	gen double _yvar = `1'
+	gen double _xvar = `2'
 	
-	if `dups' == 1 collapse (mean) `yvar' `xvar', by(`label')
+	local xvar _xvar
+	local yvar _yvar
+	
+	
+	
+	keep `xvar' `yvar' `by' `over' `exp' `sort'
+	
+	drop if missing(`by')
+	drop if missing(`over')
+
+	
+	if "`over'"=="" {
+		gen _over = 1
+		local over _over
+		local ovrskip 1
+	}
+	else {
+		local ovrskip 0
+	}
+	
+	if "`sort'" == "" {
+		bysort `by': egen _mysort = sum(`xvar')
+	}
+	else {
+		gen _mysort = `sort'
+	}
+	
+	local sort _mysort
+	
+	
+	if "`stat'" == "" local stat sum
+	if "`weight'" != "" local myweight  [`weight' = `exp']
+	
+	collapse (`stat') `xvar' `yvar' (mean) `sort' `myweight' , by(`by' `over')	
+		
+	
+	sort `by' `over'
+	
+	
+	
+	
+	*by `by': egen _sort = sum(`sort')
+	by `by': gen double _ysum = sum(`yvar')  
+	by `by': egen double _xtotal = sum(`xvar')
+	by `by': egen double _ytotal = sum(`yvar')
 	
 	
 	if "`sort'" != "" {
 		if "`reverse'" != "" {
-			sort `sort'
+			sort 	`sort' 
 		}
 		else {
-			gsort - `sort'
+			gsort -`sort'
 		}
 	}
 	
-	if _N < 5 {
-		set obs 5  
-	}
 	
 	
 	// deal with the variable type
-	cap confirm numeric var `label' 
+	
+	gen id = _n
+	
+
+	
+	// x categories
+	egen _grp1 = tag(`by')  
+	replace _grp1 = sum(_grp1)
+	
+	
+	cap confirm numeric var `by' 
 	
 	if _rc!=0 {   
-		gen id = _n
-		gen name = `label'
-		local label id
+		labmask _grp1, val(`by')
 	}
 	else {
-		if "`: value label `label''" == "" { 
-			gen id = _n
-			gen name = `label'
-			local label id
-		}
-		else {
-			gen id = _n
-			decode `label', gen(name)
-			local label id
-		}
+		decode `by', gen(_name)
+		labmask _grp1, val(_name)
+		drop _name
 	}
 
 	
+	// y categories
+	
+	
+	egen _grp2 = group(`over') 
+	
+	cap confirm numeric var `over'
+	
+	if _rc!=0 {		// if string
+		labmask _grp2, values(`over')
+	}
+	else {			// if numeric 
+		if "`: value label `over''" != "" { // with value label
+			decode `over', gen(_name)
+			labmask _grp2, val(_name)
+			drop _name
+		}
+	}
+	
+	
+	sort `sort' `by' `over'
+
 	// rectangles
 	
 	tempvar xe xs ye ys
 	
-	gen double `xe' = sum(`xvar')
-	gen double `xs' = `xe'[_n-1]
-	replace    `xs' = 0 in 1
 
-	gen double `ye' = `yvar'
-	gen double `ys' = 0
+	levelsof _grp1, local(lvls)
+	
+	gen double _xs = .
+	gen double _xe = .
+	
+	local xstart = 0
+	local xend = 0
+	
+	foreach x of local lvls {
+		
+		local xstart = `xend'
+		
+		summ _xvar if _grp1==`x', meanonly
+		local xend = `r(sum)' + `xend'
+		
+		replace _xs = `xstart' 	if _grp1==`x'
+		replace _xe = `xend' 	if _grp1==`x'
+	}
 	
 	
-
-		levelsof `label' , local(lvls)
-
-		foreach x of local lvls {
-			
-			
-			cap gen double x`x' = .	
-			cap gen double y`x' = .	
-			
+	gen double _ye = _ysum
+	gen double _ys = _ye[_n-1]
+	replace    _ys = 0 if _grp2==1
 	
-			// bottom left
-			replace x`x' = `xs'[`x'] in 1
-			replace y`x' = `ys'[`x'] in 1
-			
-			// top left
-			replace x`x' = `xs'[`x'] in 2
-			replace y`x' = `ye'[`x'] in 2
-			
-			// top right
-			replace x`x' = `xe'[`x'] in 3
-			replace y`x' = `ye'[`x'] in 3	
-			
-			// bottom right
-			replace x`x' = `xe'[`x'] in 4
-			replace y`x' = `ys'[`x'] in 4		
+	
+	
+	// share or percentage
+	
+	if "`yshare'" != "" {
+		replace _ys = _ys / _ytotal
+		replace _ye = _ye / _ytotal
+	}
+	
+	if "`ypercentage'" != "" {
+		replace _ys = (_ys / _ytotal) * 100
+		replace _ye = (_ye / _ytotal) * 100
+	}	
+	
+	if "`xshare'" != "" {
+		summ _xe, meanonly
+		replace _xs = _xs / `r(max)'
+		replace _xe = _xe / `r(max)'
+	}
+	
+	if "`xpercentage'" != "" {
+		summ _xe, meanonly
+		replace _xs = (_xs / `r(max)') * 100
+		replace _xe = (_xe / `r(max)') * 100
+	}		
+	
+	
+	levelsof _grp2, local(lvl2)
+	
+	foreach x of local lvl2 {
+		
+		count if _grp2==`x' 
+		local targetobs = `r(N)' * 6
+		if _N < `targetobs'		set obs `targetobs'		
+		
+		gen int 	_id`x' 	= .
+		gen double 	 _x`x' 	= .
+		gen double 	 _y`x' 	= .
+		
+		levelsof _grp1 if _grp2==`x', local(lvl1)
+		
 
-			// bottom left
-			replace x`x' = `xs'[`x'] in 5
-			replace y`x' = `ys'[`x'] in 5	
+		foreach y of local lvl1 {
+		
+			local i = (`y'- 1) * 6 
 			
-			gen double xmid`x' = (`xs'[`x'] + `xe'[`x']) / 2 in 1
-			gen double ymid`x' = `yvar'[`x'] + cond(`yvar'[`x'] >= 0, `mlabgap', -1 * `mlabgap') in 1
+			replace _id`x' = `y' in `=`i'+1'/`=`i'+6'
 			
-			
-			gen label`x' = name[`x'] in 1
+			// x
+			summ _xs if _grp2==`x' & _grp1==`y', meanonly
+			replace _x`x' = r(mean) in `=`i'+1'
+			replace _x`x' = r(mean) in `=`i'+2'
+			replace _x`x' = r(mean) in `=`i'+5'
+		
+			summ _xe if _grp2==`x' & _grp1==`y', meanonly
+			replace _x`x' = r(mean) in `=`i'+3'
+			replace _x`x' = r(mean) in `=`i'+4'
+		
+			// y
+			summ _ys if _grp2==`x' & _grp1==`y', meanonly
+			replace _y`x' = r(mean) in `=`i'+1'
+			replace _y`x' = r(mean) in `=`i'+4'
+			replace _y`x' = r(mean) in `=`i'+5'
+		
+			summ _ye if _grp2==`x' & _grp1==`y', meanonly
+			replace _y`x' = r(mean) in `=`i'+2'
+			replace _y`x' = r(mean) in `=`i'+3'		
 			
 		}
+		
+	}
+	
+	
+	// fix labels
+	
 
+
+	levelsof _grp1, local(lvls)
+	
+	gen double _labx = .
+	gen double _laby = .
+	gen double _labval = .
+	gen _labname = ""
+	
+	local x0 = 0
+	
+	foreach x of local lvls {
+			
+			// y
+			summ _ye if _grp1==`x', meanonly
+			replace _laby = r(max) * (1 + (`offset' / 100)) in `x'
+
+			// x
+			summ _xe if _grp1==`x', meanonly
+			local x1 = r(max)
+			replace _labx = (`x0' + `x1') / 2 in `x'
+			local x0 = `x1'
+			
+			// value
+			summ _xtotal if _grp1==`x', meanonly
+			replace _labval = r(max) in `x'
+			
+			// label
+			local t : label _grp1 `x' 
+			replace _labname = "`t'" in `x'
+	}		
+		
+		
+	*** define format options
+	if "`format'" == "" {
+		if "`shares'"!="" | "`percent'"!="" {
+			local format "%4.2f"	
+		}
+		else {
+			local format "%12.2fc"	
+		}
+	}			
+		
+		if "`showtotal'" !="" {
+			if "`xshare'" != "" {
+				summ _labval, meanonly
+				replace _labval = _labval / r(sum)
+				replace _labname = _labname + " (" + string(_labval, "`format'") + ")" if !missing(_labname) 
+			}
+			else if "`xpercentage'"!= "" {
+				summ _labval, meanonly
+				replace _labval = (_labval / r(sum)) * 100
+				replace _labname = _labname + " (" + string(_labval, "`format'") + "%)" if !missing(_labname)			
+			}
+			else {
+				replace _labname = _labname + " (" + string(_labval, "`format'") + ")" if !missing(_labname) 
+			}
+		}
+		
+		replace _labname = "" if _labval < `labcondition'
+		
+		
+		if "`wrap'" != "" {
+			ren _labname _labname_old
+			labsplit _labname_old, wrap(`wrap') gen(_labname)
+			drop _labname_old
+		}	
+		
 		
 		// locals here
 		
-		if "`colorp'" == "" local colorp "31 119 180"
-		if "`colorn'" == "" local colorn "255 127 14"
-		if "`lcolor'" == "" local lcolor "white"
+		if "`lwidth'" == "" local lwidth 0.1
+		if "`lcolor'" == "" local lcolor white
+		
+		if "`palette'" == "" {
+			local palette tableau
+		}
+		else {
+			tokenize "`palette'", p(",")
+			local palette  `1'
+			local poptions `3'
+		}		
 		
 		
 		// draw here
 
-		levelsof `label' if `yvar' >= 0, local(lvls)
+		if "`labgap'"   == "" local labgap 0
+		if "`labsize'"  == "" local labsize  2
+		if "`labangle'" == "" local labangle 0
+		if "`labcolor'" == "" local labcolor black
+		if "`labposition'" == "" local labposition 12		
+		
+		
+		
+		if "`labprop'"== ""  {
+			local labels (scatter _laby _labx, mlab(_labname) mc(none) mlabangle(`labangle') mlabposition(`labposition') mlabcolor(`labcolor') mlabsize(`labsize')) 
+		}		
+		
+		levelsof _grp2, local(lvls)
+		local items = r(r)
 
 		foreach x of local lvls {
-			
-			local bars1 `bars1' (area y`x' x`x', nodropbase fc("`colorp'") fi(100) lc(`lcolor') lw(`lwidth')) ||
-			
-			local labels1 `labels1' (scatter ymid`x' xmid`x', mlab(label`x') mc(none) mlabangle(`mlabangle') mlabpos(1) mlabc(`mlabcolor') mlabsize(`mlabsize')) ||
+			colorpalette `palette', nograph `poptions' // n(`items')
+			local bars `bars' (area _y`x' _x`x', cmissing(n) nodropbase fc("`r(p`x')'") fi(100) lc(`lcolor') lw(`lwidth')) 
 			
 		}
-	
-	
-		levelsof `label' if `yvar' < 0, local(lvls)
 
-		foreach x of local lvls {	
-			
-			local bars2 `bars2' (area y`x' x`x' , nodropbase fc("`colorn'") fi(100) lc(`lcolor') lw(`lwidth')) ||
-			
-			local labels2 `labels2' (scatter ymid`x' xmid`x', mlab(label`x') mc(none) mlabangle(`mlabangle') mlabpos(7) mlabc(`mlabcolor') mlabsize(`mlabsize')) ||
+		
+		if "`labprop'"== ""  {
+			local labels (scatter _laby _labx, mlab(_labname) mc(none) mlabangle(`labangle') mlabposition(`labposition') mlabcolor(`labcolor') mlabsize(`labsize')) 
+		}
+		else {
+			summ _labval, meanonly
+			local height = r(sum)
+				
+			levelsof _grp1, local(lvls)	
+				
+			foreach x of local lvls {	
+				summ _labval in `x' , meanonly
+				local labwgt = `labsize' * (r(max) / `height')^`labscale' 
+				
+				local labels `labels'  (scatter _laby _labx in `x', mlab(_labname) mc(none) mlabangle(`labangle') mlabposition(`labposition') mlabcolor(`labcolor') mlabsize(`labwgt')) 
+			}	
 			
 		}
+		
+		
+		// fix legend
+		
+		if "`legsize'" == "" local legsize 2.5
+		
+		if `ovrskip' == 1 {	// skip legend if no over defined.
+			local legend legend(off)
+		}
+		else {
+			
+			if "`legend'" == "" {
+			
+				levelsof _grp2, local(lvls)
+				
+				foreach x of local lvls {
+					local t : label _grp2 `x' 
+					lab var _y`x' "`t'"
+					local entries `" `entries' `x'  "`t'"  "'
+				}
+				
+				local legend legend(order("`entries'") position(`legposition') size(`legsize') rows(`legrows')) 
+			}
+		}
+		
 
 	
 		// put it together
 		
+
 		twoway ///
-			`bars1' ///
-			`bars2' ///
-			`labels1' ///
-			`labels2' ///
+			`bars' ///			
+			`labels' ///
 				, ///
-				legend(off)  ///
-				`xlabel' `ylabel' ///
-				`xtitle' `ytitle' ///
-				`xline' `yline' ///
-				`title' `subtitle' `note' ///
-				`scheme' `xsize' `ysize' `name' `saving' 
-			
+				 `legend' `options'
+				 
+				
+*/			
 
 	restore
 }		

@@ -1,5 +1,5 @@
-v 1.1
-d {bf:marimekko}: A Stata package for creating Marimekko graphs
+v 1.2
+d {bf:marimekko}: A package for Marimekko charts
 d
 d Requires: Stata version 15 or higher.
 d
@@ -7,9 +7,9 @@ d KW: Stata
 d KW: graphs
 d KW: marimekko
 d
-d Distribution-Date: 20231202
+d Distribution-Date: 20241111
 d
-d This  version: 02 Dec 2023
+d This  version: 11 Nov 2024
 d First version: 28 Jun 2022
 d License: MIT
 d

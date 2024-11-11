@@ -1,17 +1,17 @@
 
-![marimekko-1](https://github.com/asjadnaqvi/stata-marimekko/assets/38498046/c71436e5-7f9b-4d04-946b-0afb01f279e2)
-
 ![StataMin](https://img.shields.io/badge/stata-2015-blue) ![issues](https://img.shields.io/github/issues/asjadnaqvi/stata-marimekko) ![license](https://img.shields.io/github/license/asjadnaqvi/stata-marimekko) ![Stars](https://img.shields.io/github/stars/asjadnaqvi/stata-marimekko) ![version](https://img.shields.io/github/v/release/asjadnaqvi/stata-marimekko) ![release](https://img.shields.io/github/release-date/asjadnaqvi/stata-marimekko)
-
-
----
 
 [Installation](#Installation) | [Syntax](#Syntax) | [Examples](#Examples) | [Feedback](#Feedback) | [Change log](#Change-log)
 
 ---
 
-# marimekko v1.1
-(02 Dec 2023)
+![marimekko-1](https://github.com/asjadnaqvi/stata-marimekko/assets/38498046/c71436e5-7f9b-4d04-946b-0afb01f279e2)
+
+
+
+
+# marimekko v1.2
+(11 Nov 2024)
 
 This package provides the ability to draw Marimekko graphs in Stata. 
 
@@ -30,7 +30,7 @@ ssc install marimekko, replace
 ```
 
 
-or directly from GitHub (**v1.1**):
+or directly from GitHub (**v1.2**):
 
 ```
 net install marimekko, from("https://raw.githubusercontent.com/asjadnaqvi/stata-marimekko/main/installation/") replace
@@ -57,148 +57,94 @@ graph set window fontface "Arial Narrow"
 The syntax for the latest version is as follows:
 
 ```stata
-marikmekko y x [if] [in], label(varname) [ sort(varname) reverse colorp(str) colorn(str)
-                lcolor(str) lwidth(num) mlabsize(num) mlabangle(num) mlabgap(num)
-                mlabcolor(num) xline(num) yline(num) xlabel(str) xtitle(str) ytitle(str)           
-                title(str) subtitle(str) note(str) ysize(num) xsize(num) scheme(str)
-                ]
+marikmekko y x [if] [in] [weight], by(varname) 
+      [ over(varname) sort(varname) reverse palette(str) xshare xpercentage yshare ypercentage wrap(num) stat(mean|sum)
+        lcolor(str) lwidth(str) labsize(str) labangle(str) labgap(str) labposition(str) labcolor(num) showtotal
+        labcondition(num) labprop labscale(num) legposition(num) legrows(num) legsize(num) offset(num) * ]
+
 ```
 
 See the help file `help marimekko` for details.
 
-The basic use is as follows:
-
-```
-marimekko y x, label(variable)
-```
-
-The `y` and `x` variables need to be unique across the `label()` variable. If not, then the program will throw a warning and average the values across the `label()` variable. In summary, the data should be prepared in advance for the graph.
-
 
 ## Examples
 
-Set up the data:
 
-```stata
-clear
-set scheme white_tableau
-graph set window fontface "Arial Narrow"
-
-use "https://github.com/asjadnaqvi/stata-marimekko/blob/main/data/demo_r_pjangrp3_pop_change.dta?raw=true", clear
-
-drop NUTS_ID
-
-replace pop = pop / 1000000
-
-ren xvar regions
-
-
-lab de regions 	1 "Berlin" 2 "Hamburg" 3 "Bayern" 4 "Brandenburg" 5 "Baden-Württemberg" 6 "Hessen" 7 "Schleswig-Holstein" 8 "Rheinland-Pfalz" 9 "Niedersachsen" ///
-				10 "Bremen" 11 "Nordrhein-Westfalen" 12 "Mecklenburg-Vorpommern" 13 "Sachsen" 14 "Saarland" 15 "Thüringen" 16 "Sachsen-Anhalt", replace
-
-lab val regions regions
+```
+sysuse voter.dta, clear
 ```
 
 
-### Examples
-
-
 ```stata
-marimekko change pop, label(regions)
+marimekko pfrac pop, by(inc) 
 ```
 
 <img src="/figures/marimekko1.png" width="100%">
 
 ```stata
-marimekko change pop, label(regions) sort(change) reverse	
-```
-
-<img src="/figures/marimekko1_1.png" width="100%">
-
-
-```
-marimekko change pop, label(regions) sort(pop) 	
-```
-
-<img src="/figures/marimekko1_2.png" width="100%">
-
-```
-marimekko change pop, label(regions) sort(pop) reverse	
-```
-
-<img src="/figures/marimekko1_3.png" width="100%">
-
-
-Sort by names:
-
-```
-decode regions, gen(names)
-
-marimekko change pop, label(names) sort(names)	
-```
-
-<img src="/figures/marimekko1_5.png" width="100%">
-
-
-```
-marimekko change pop, label(regions) sort(change) ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") 
+marimekko pfrac pop, by(inc) sort(inc) 	
 ```
 
 <img src="/figures/marimekko2.png" width="100%">
 
 
 ```
-marimekko change pop, label(regions) ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") colorp(green) colorn(purple)
+marimekko pfrac pop, by(inc) over(candidat)
 ```
 
 <img src="/figures/marimekko3.png" width="100%">
 
-
 ```
-marimekko change pop, label(regions) ///
-	colorp(green) colorn(purple) lc(black) lw(0.2) ///
-	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") 
+marimekko pfrac pop, by(inc) over(candidat) showtotal
 ```
 
 <img src="/figures/marimekko4.png" width="100%">
 
 
+
 ```
-marimekko change pop, label(regions) ///
-	colorp(yellow) colorn(lime) lc(black) lw(0.2) mlabs(2) mlaba(45) mlabg(0.1) mlabc(blue) ///
-	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") 
+marimekko pfrac pop, by(inc) over(candidat) showtotal labprop labsize(3)
 ```
 
 <img src="/figures/marimekko5.png" width="100%">
 
 
 ```
-colorpalette w3, nograph	
-	
-marimekko change pop, label(regions) ///
-	colorp("`r(p2)'%50") colorn("`r(p7)'%50") lc(black) lw(0.2) mlabs(2) mlaba(45) mlabg(0.1) mlabc(blue) ///
-	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") ///
-	xsize(2) ysize(1)
+marimekko pfrac pop, by(inc) over(candidat) showtotal yshare
 ```
 
 <img src="/figures/marimekko6.png" width="100%">
 
 
 ```
-marimekko change pop, label(regions) ///
-	 colorp("%50") colorn("%50") lc(black) lw(0.2) mlabs(2) mlaba(45) mlabg(0.1) mlabc(blue) ///
-	ylabel(-4(1)4) ytitle("% change in population") xtitle("Population (m)") yline(1) ///
-	xsize(2) ysize(1)
+marimekko pfrac pop, by(inc) over(candidat) showtotal ypercent
 ```
 
 <img src="/figures/marimekko7.png" width="100%">
 
 
-## Acknowlegments
+```
+marimekko pfrac pop, by(inc) over(candidat) showtotal ypercent xpercent
+```
 
-The package was inspired by [Ansgar Wolsing](https://twitter.com/_ansgar)'s [Twitter post](https://twitter.com/_ansgar/status/1540986424530554880), and [Maarten Lambrechts](https://twitter.com/maartenzam)'s [Twitter post](https://twitter.com/maartenzam/status/1537705354372558848). 
+<img src="/figures/marimekko8.png" width="100%">
 
-Additionally, there is a lack of general-purpose Stata package for Marimekko charts. I have also discussed this in my article on [Mosaic plots](https://medium.com/the-stata-guide/stata-graphs-mosaic-marimekko-plots-49caa27c5554) on the [Stata Guide](https://medium.com/the-stata-guide) on Medium.
+
+```
+marimekko pfrac pop, by(inc) over(candidat) sort(inc) showtotal ypercent xpercent
+```
+
+<img src="/figures/marimekko9.png" width="100%">
+
+
+```
+marimekko pfrac pop, by(inc) over(candidat) sort(inc) showtotal ypercent xpercent palette(sb colorblind6) lw(0.2) legsize(4)
+```
+
+<img src="/figures/marimekko10.png" width="100%">
+
+
+
 
 ## Feedback
 
@@ -206,6 +152,20 @@ Please open an [issue](https://github.com/asjadnaqvi/stata-marimekko/issues) to 
 
 
 ## Change log
+
+**v1.2 (11 Nov 2024)**
+Complete package redesign to cater to general needs for Marimekko or mosaic plots. Major changes:
+- Minimum syntax is now `marimekko y x, by()`, where `by()` defines the x-axis categories.
+- Y-axis categories are defined by `over()` variable.
+- Both axes can be scaled using `xshare`, `xpercent` and `yshare`, `ypercent` options. These are for (0,1) or (0,100) scaling.
+- All possible options added to control the labels. This also includes `labprop` and its controls, and `labcond()` to conditionally drop labels.
+- The option `showtotal` shows x-axis `by()` category totals with the labels.
+- Option `wrap()` allows label wrapping.
+- Weights are allowed.
+- Redesign of the underlying functions to generate boxes makes the command much faster than the previous versions.
+- `legend()` options are restricted to a limited set of predefined options which should be sufficient for most cases. These can be overwritten but avoid this.
+- Previous version had options to also show negative boxes. Currently these haven't been fully implemented and tested for this version.
+
 
 **v1.1 (02 Dec 2023)**
 - Additional options, such as `yline()`, `xline()` added.
