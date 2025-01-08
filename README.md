@@ -22,7 +22,7 @@ The package can be installed via SSC or GitHub (the beta is on GitHub only). The
 
 Install the package as follows:
 
-SSC (**v1.1**):
+SSC (**v1.2**):
 
 ```
 ssc install marimekko, replace
